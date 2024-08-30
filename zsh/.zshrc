@@ -117,4 +117,41 @@ source $ZSH/oh-my-zsh.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# brew shell init 
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# fzf init
+source <(fzf --zsh)
+# export FZF_CTRL_T_OPTS="--walker-skip .DS_Store,.CFUserTextEncoding,.local,.tmux,.rustup,.ssh,.cache,.Trash,.supermaven,.zsh_sessions,.oh-my-zsh,.git,node_modules,.cargo,target,Library,Applications,Music,Desktop,Documents,Movies,Pictures,go,.cache,.config,.npm --preview 'bat -n --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+# fzf, use fd instead of find (fd reads ~/.fdignore)
+
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+
+# Ctrl + T command
+export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
+
+# Alt + C command (ESC + C on MacOS)
+export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude .git'
+
+# "**" command syntax
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+
+# "**" command syntax (for directories only)
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+
+
+
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
+
+
+alias vim="nvim"
+alias vi="nvim"
+alias zshconfig="source ~/.zshrc"
