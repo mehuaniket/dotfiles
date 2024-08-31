@@ -73,9 +73,13 @@ stow --adopt zsh
 stow --adopt tmux
 stow --adopt fzf
 
+source ~/.zshrc
+
 tmux source ~/.tmux.conf
 tmux run '~/.tmux/plugins/tpm/scripts/install_plugins.sh'
 
-
+# install kubectl and terraform 
+install_brew_package kubectl
+install_brew_package terraform
 echo "Setup complete! Please restart your terminal."
 
