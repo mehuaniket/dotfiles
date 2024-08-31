@@ -151,10 +151,38 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory
 
+# git
 alias git_config_mehuaniket="git config --local user.name \"Aniket Patel\" && git config user.email 8078990+mehuaniket@users.noreply.github.com"
 # alias git_config_work="git config --local user.name \"Aniket Patel\" git config user.email 8078990+work@users.noreply.github.com"
 alias git_prune="git reflog expire --expire-unreachable=now --all && git gc --prune=now"
+alias glog="git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N' --abbrev-commit"
 
+# nvim
 alias vim="nvim"
 alias vi="nvim"
+
+# zsh
 alias zshconfig="source ~/.zshrc"
+
+## Kubernetes
+alias k="kubectl"
+kn() { kubectl config set-context --current --namespace="$1" }
+kv() { kubectl get pod "$1" -o yaml | nvim }
+
+## Terraform
+alias tf="terraform"
+
+
+# Dirs
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+
+
+# navigation
+cx() { cd "$@" && ls -l }
+fcd() { cd "$(fd --type d --hidden --exclude .git | fzf)" && ls -l }
+fcopy() { echo "$(fzf)" | pbcopy }
+fvi() { nvim "$(fzf)" }
