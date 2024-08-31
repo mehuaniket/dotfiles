@@ -151,6 +151,8 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory
 
+alias git_config_mehuaniket="git config --local user.name \"Aniket Patel\" && git config user.email 8078990+mehuaniket@users.noreply.github.com"
+# alias git_config_work="git config --local user.name \"Aniket Patel\" git config user.email 8078990+work@users.noreply.github.com"
 
 alias vim="nvim"
 alias vi="nvim"
