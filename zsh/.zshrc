@@ -81,7 +81,7 @@ plugins=(
     git
     zsh-autosuggestions
     zsh-syntax-highlighting
-
+    kubectl
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -124,8 +124,9 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # fzf init
 source <(fzf --zsh)
 # export FZF_CTRL_T_OPTS="--walker-skip .DS_Store,.CFUserTextEncoding,.local,.tmux,.rustup,.ssh,.cache,.Trash,.supermaven,.zsh_sessions,.oh-my-zsh,.git,node_modules,.cargo,target,Library,Applications,Music,Desktop,Documents,Movies,Pictures,go,.cache,.config,.npm --preview 'bat -n --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
-# fzf, use fd instead of find (fd reads ~/.fdignore)
 
+
+# fzf, use fd instead of find (fd reads ~/.fdignore)
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
 
 # Ctrl + T command
