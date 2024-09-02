@@ -10,48 +10,95 @@ install_brew_package() {
   fi
 }
 
-# Install Homebrew
-echo "Installing Homebrew..."
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo "eval $(/opt/homebrew/bin/brew shellenv)" >> ~/.zshrc
-source ~/.zshrc
+# Install Homebrew if not already installed
+if ! command -v brew &>/dev/null; then
+  echo "Homebrew is not installed. Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  # Add brew to zshrc if it's not already there
+  if ! grep -q 'eval "$(/opt/homebrew/bin/brew shellenv)"' ~/.zshrc; then
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshrc
+  fi
+  source ~/.zshrc
+else
+  echo "Homebrew is already installed."
+fi
 
 # Install iTerm2
 install_brew_package iterm2
+install_brew_package node
 
 # Install fzf and fd
 install_brew_package fzf
 install_brew_package fd
 
-# Install Oh My Zsh
-echo "Installing Oh My Zsh..."
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# Check if Oh My Zsh is already installed
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  echo "Installing Oh My Zsh..."
+  RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  # Switch to Zsh immediately after installation
+  exec zsh
+else
+  echo "Oh My Zsh is already installed at $HOME/.oh-my-zsh. Skipping installation."
+fi
 
-# Clone Zsh plugins
-echo "Cloning Zsh plugins..."
-ZSH_CUSTOM="$HOME/.oh-my-zsh/custom/plugins"
+# Switch to Zsh if not already using it
+if [ "$SHELL" != "$(which zsh)" ]; then
+  echo "Switching to Zsh..."
+  chsh -s "$(which zsh)"
+  exec zsh  # Switch to Zsh immediately
+fi
+
+# Clone Zsh plugins after removing existing directories
+ZSH_CUSTOM="$HOME/.oh-my-zsh/plugins"
+
+# Remove and re-clone zsh-autosuggestions
+if [ -d "$ZSH_CUSTOM/zsh-autosuggestions" ]; then
+  echo "Removing existing zsh-autosuggestions..."
+  rm -rf "$ZSH_CUSTOM/zsh-autosuggestions"
+fi
+echo "Cloning zsh-autosuggestions..."
 git clone https://github.com/zsh-users/zsh-autosuggestions.git "$ZSH_CUSTOM/zsh-autosuggestions"
+
+# Remove and re-clone zsh-syntax-highlighting
+if [ -d "$ZSH_CUSTOM/zsh-syntax-highlighting" ]; then
+  echo "Removing existing zsh-syntax-highlighting..."
+  rm -rf "$ZSH_CUSTOM/zsh-syntax-highlighting"
+fi
+echo "Cloning zsh-syntax-highlighting..."
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/zsh-syntax-highlighting"
 
-# Install Powerlevel10k
+# Remove and re-clone Powerlevel10k theme
+ZSH_THEME_DIR="$HOME/.oh-my-zsh/themes/powerlevel10k"
+if [ -d "$ZSH_THEME_DIR" ]; then
+  echo "Removing existing Powerlevel10k theme..."
+  rm -rf "$ZSH_THEME_DIR"
+fi
 echo "Installing Powerlevel10k..."
+
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 
-source ~/.zshrc
 
 # Install tmux
 install_brew_package tmux
 
-# Setup tmux plugin manager and configuration
-echo "Setting up tmux..."
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+# Setup tmux plugin manager and configuration if not already setup
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+  echo "Setting up tmux..."
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+else
+  echo "Tmux Plugin Manager (TPM) is already set up."
+fi
 
 # Install GitHub CLI
 install_brew_package gh
 
-# Install Rust
-echo "Installing Rust..."
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# Install Rust if not already installed
+if ! command -v rustc &>/dev/null; then
+  echo "Installing Rust..."
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+else
+  echo "Rust is already installed."
+fi
 
 # Install Go
 install_brew_package go
@@ -59,27 +106,51 @@ install_brew_package go
 # Install Neovim
 install_brew_package neovim
 
-# Install Nerd Font
-brew tap homebrew/cask-fonts
-brew install --cask font-hack-nerd-font
+# Check for fc-list command (usually part of the fontconfig package)
+if ! command -v fc-list &>/dev/null; then
+  echo "Installing fontconfig..."
+  brew install fontconfig
+fi
 
-# Install dotfiles using stow
-install_brew_package stow
-git clone --recurse-submodules https://github.com/mehuaniket/dotfiles ~/.dotfiles
+# Install Nerd Font using alternative method as cask-fonts is deprecated
+if ! fc-list | grep -qi "Hack Nerd Font"; then
+  echo "Downloading and installing Hack Nerd Font..."
+  brew install --cask font-hack-nerd-font
+else
+  echo "Hack Nerd Font is already installed."
+fi
+
+# Install dotfiles using stow with --delete option
+if [ ! -d "$HOME/.dotfiles" ]; then
+  echo "Cloning dotfiles..."
+  git clone --recurse-submodules https://github.com/mehuaniket/dotfiles ~/.dotfiles
+fi
+
 cd ~/.dotfiles
+# touch ~/.tmux.conf
 
-stow --adopt nvim
-stow --adopt zsh
-stow --adopt tmux
-stow --adopt fzf
+echo "Stowing dotfiles with deletion of existing conflicts..."
+stow nvim
+rm ~/.zshrc
+rm ~/.p10k.zsh
+stow zsh
+stow tmux
+stow fzf
 
-source ~/.zshrc
+# Source Zsh configuration to apply changes
+if [ -f ~/.zshrc ]; then
+  source ~/.zshrc
+else
+  echo "Error: ~/.zshrc does not exist."
+  exit 1
+fi
 
 tmux source ~/.tmux.conf
 tmux run '~/.tmux/plugins/tpm/scripts/install_plugins.sh'
 
-# install kubectl and terraform 
+# Install kubectl and terraform
 install_brew_package kubectl
 install_brew_package terraform
+
 echo "Setup complete! Please restart your terminal."
 
