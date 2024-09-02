@@ -131,10 +131,13 @@ cd ~/.dotfiles
 
 echo "Stowing dotfiles with deletion of existing conflicts..."
 stow nvim
-rm ~/.zshrc
-rm ~/.p10k.zsh
+
+rm ~/.zshrc || true
+rm ~/.p10k.zsh || true
 stow zsh
+
 stow tmux
+
 stow fzf
 
 # Source Zsh configuration to apply changes
