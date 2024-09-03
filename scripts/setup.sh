@@ -10,6 +10,14 @@ install_brew_package() {
   fi
 }
 
+# # Install dotfiles using stow with --delete option
+if [ ! -d "$HOME/.dotfiles" ]; then
+  echo "Cloning dotfiles..."
+  git clone --recurse-submodules https://github.com/mehuaniket/dotfiles ~/.dotfiles
+fi
+
+cd ~/.dotfiles
+
 # Install Homebrew if not already installed
 if ! command -v brew &>/dev/null; then
   echo "Homebrew is not installed. Installing Homebrew..."
@@ -31,6 +39,12 @@ install_brew_package node
 install_brew_package fzf
 install_brew_package fd
 
+# Install kubectl and terraform
+install_brew_package kubectl
+install_brew_package terraform
+install_brew_package jq
+
+
 # Check if Oh My Zsh is already installed
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   echo "Installing Oh My Zsh..."
@@ -49,26 +63,26 @@ if [ "$SHELL" != "$(which zsh)" ]; then
 fi
 
 # Clone Zsh plugins after removing existing directories
-ZSH_CUSTOM="$HOME/.oh-my-zsh/plugins"
+ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 
 # Remove and re-clone zsh-autosuggestions
-if [ -d "$ZSH_CUSTOM/zsh-autosuggestions" ]; then
+if [ -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
   echo "Removing existing zsh-autosuggestions..."
-  rm -rf "$ZSH_CUSTOM/zsh-autosuggestions"
+  rm -rf "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
 fi
 echo "Cloning zsh-autosuggestions..."
-git clone https://github.com/zsh-users/zsh-autosuggestions.git "$ZSH_CUSTOM/zsh-autosuggestions"
+git clone https://github.com/zsh-users/zsh-autosuggestions.git "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
 
 # Remove and re-clone zsh-syntax-highlighting
-if [ -d "$ZSH_CUSTOM/zsh-syntax-highlighting" ]; then
+if [ -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
   echo "Removing existing zsh-syntax-highlighting..."
-  rm -rf "$ZSH_CUSTOM/zsh-syntax-highlighting"
+  rm -rf "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 fi
 echo "Cloning zsh-syntax-highlighting..."
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/zsh-syntax-highlighting"
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 
 # Remove and re-clone Powerlevel10k theme
-ZSH_THEME_DIR="$HOME/.oh-my-zsh/themes/powerlevel10k"
+ZSH_THEME_DIR="$ZSH_CUSTOM/themes/powerlevel10k"
 if [ -d "$ZSH_THEME_DIR" ]; then
   echo "Removing existing Powerlevel10k theme..."
   rm -rf "$ZSH_THEME_DIR"
@@ -120,20 +134,17 @@ else
   echo "Hack Nerd Font is already installed."
 fi
 
-# Install dotfiles using stow with --delete option
-if [ ! -d "$HOME/.dotfiles" ]; then
-  echo "Cloning dotfiles..."
-  git clone --recurse-submodules https://github.com/mehuaniket/dotfiles ~/.dotfiles
-fi
+# touch ~/.tmux.conf
+install_brew_package stow
 
 cd ~/.dotfiles
-# touch ~/.tmux.conf
 
 echo "Stowing dotfiles with deletion of existing conflicts..."
 stow nvim
 
 rm ~/.zshrc || true
 rm ~/.p10k.zsh || true
+
 stow zsh
 
 stow tmux
@@ -151,9 +162,6 @@ fi
 tmux source ~/.tmux.conf
 tmux run '~/.tmux/plugins/tpm/scripts/install_plugins.sh'
 
-# Install kubectl and terraform
-install_brew_package kubectl
-install_brew_package terraform
 
 echo "Setup complete! Please restart your terminal."
 
