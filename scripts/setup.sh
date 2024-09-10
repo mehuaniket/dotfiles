@@ -38,7 +38,7 @@ install_brew_package node
 # Install fzf and fd
 install_brew_package fzf
 install_brew_package fd
-
+install_brew_package ripgrep
 # Install kubectl and terraform
 install_brew_package kubectl
 install_brew_package terraform
