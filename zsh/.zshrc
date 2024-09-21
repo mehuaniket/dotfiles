@@ -153,7 +153,8 @@ _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
-
+#k9s
+export K9S_CONFIG_DIR="$HOME/.config/k9s"
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000

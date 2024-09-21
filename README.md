@@ -1,6 +1,6 @@
 # dotfiles
 
-- Setup Tools
+### Setup
 
 ```bash
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/mehuaniket/dotfiles/main/scripts/setup.sh)" 
@@ -18,5 +18,21 @@ zsh -c "$(curl -fsSL https://raw.githubusercontent.com/mehuaniket/dotfiles/main/
 ```bash
 nvim .
 ```
+
+### Install with stow:
+
+```bash
+stow --target .
+```
+
+### Install Homebrew Packages:
+```bash
+# Leaving a machine
+brew leaves > leaves.txt
+
+# Fresh installation
+xargs brew install < leaves.txt
+```
+
 
 - Refer to [blog](https://mehuaniket.com/blog/how-do-i-setup-my-mac/)
