@@ -44,6 +44,8 @@ install_brew_package kubectl
 install_brew_package terraform
 install_brew_package jq
 
+install_brew_package llvm
+
 
 # Check if Oh My Zsh is already installed
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
