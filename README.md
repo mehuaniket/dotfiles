@@ -28,10 +28,11 @@ stow --target .
 ### Install Homebrew Packages:
 ```bash
 # Leaving a machine
-brew leaves > leaves.txt
 
-# Fresh installation
-xargs brew install < leaves.txt
+brew bundle dump --force 
+
+# Fresh enstallation
+brew bundle install
 ```
 
 
