@@ -1,5 +1,8 @@
 tap "fluxcd/tap"
 tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/cask-fonts"
+tap "buo/cask-upgrade"
 tap "homebrew/services"
 tap "nikitabobko/tap"
 brew "argocd"
