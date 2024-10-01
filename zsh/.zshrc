@@ -138,6 +138,8 @@ export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 source <(fzf --zsh)
 # export FZF_CTRL_T_OPTS="--walker-skip .DS_Store,.CFUserTextEncoding,.local,.tmux,.rustup,.ssh,.cache,.Trash,.supermaven,.zsh_sessions,.oh-my-zsh,.git,node_modules,.cargo,target,Library,Applications,Music,Desktop,Documents,Movies,Pictures,go,.cache,.config,.npm --preview 'bat -n --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
 
+# fuck init
+eval $(thefuck --alias) 
 
 # fzf, use fd instead of find (fd reads ~/.fdignore)
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'

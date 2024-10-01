@@ -1,42 +1,140 @@
+
+# FluxCD, GitOps tool for Kubernetes
 tap "fluxcd/tap"
+
+# Homebrew bundle for managing Brewfile dependencies
 tap "homebrew/bundle"
+
+# Homebrew Cask for managing GUI apps
 tap "homebrew/cask"
+
+# Homebrew Cask for font management
 tap "homebrew/cask-fonts"
+
+# Homebrew tap for upgrading Cask apps
 tap "buo/cask-upgrade"
+
+# Manage background services via Homebrew
 tap "homebrew/services"
+
+# Custom tap for various tools by Nikita Bobko
 tap "nikitabobko/tap"
+
+# ArgoCD, GitOps continuous delivery tool for Kubernetes
 brew "argocd"
+
+# Font configuration utility for system-wide fonts
 brew "fontconfig"
+
+# Test configuration files using Open Policy Agent (OPA)
 brew "conftest"
+
+# Simple, fast alternative to `find` command
 brew "fd"
+
+# Command-line fuzzy finder for interactive search
 brew "fzf"
+
+# GitHub CLI for managing repositories
 brew "gh"
+
+# Go programming language development environment
 brew "go"
+
+# Helm, package manager for Kubernetes
 brew "helm"
+
+# Command-line tool to fetch macOS Calendar data
 brew "ical-buddy"
+
+# Lightweight and flexible command-line JSON processor
 brew "jq"
+
+# Load testing tool for web services
 brew "k6"
+
+# Kubernetes CLI to manage clusters in a terminal UI
 brew "k9s"
+
+# Kubernetes in Docker for local clusters
 brew "kind"
+
+# Kubernetes cluster linter for deprecated APIs
 brew "kubent"
+
+# Kubernetes command-line interface (`kubectl`)
 brew "kubernetes-cli"
+
+# Kubernetes configuration customization tool
 brew "kustomize"
+
+# Simple terminal UI for Git operations
 brew "lazygit"
+
+# Collection of modular and reusable compiler tools
 brew "llvm"
+
+# Run Kubernetes locally in a lightweight VM
 brew "minikube"
+
+# Hyperextensible Vim-based text editor
 brew "neovim"
+
+# JavaScript runtime built on Chrome's V8 engine
 brew "node"
+
+# Java Development Kit (JDK) version 11
 brew "openjdk@11"
+
+# Install and run Python applications in isolated environments
 brew "pipx"
+
+# Fast search tool like `grep`, optimized for code search
 brew "ripgrep"
+
+# Manage symbolic links for dotfiles
 brew "stow"
+
+# Infrastructure as code (IaC) tool for cloud management
 brew "terraform"
+
+# Programmatically correct mistyped console commands
+brew "thefuck"
+
+# Terminal multiplexer for managing multiple terminal sessions
 brew "tmux"
+
+# Recursive directory listing command-line tool
 brew "tree"
+
+# Backup and restore Kubernetes resources and persistent volumes
 brew "velero"
+
+# Command-line YAML processor like `jq` for JSON
 brew "yq"
-brew "fluxcd/tap/flux", link: false
+
+# Internet file retriever
+brew "wget"
+
+# FluxCD, for continuous deployment to Kubernetes clusters
+brew "fluxcd/tap/flux"
+
+# Specific version of FluxCD (v2.2)
 brew "fluxcd/tap/flux@2.2"
-cask "aerospace"
+
+# Windows manager for tiling in macOS
+# cask "aerospace"
+
+# Enable Windows-like alt-tab
+cask "alt-tab"
+
+# API documentation browser and code snippet manager
+cask "dash"
+
+# Developer-friendly, patched monospace font with programming ligatures
 cask "font-hack-nerd-font"
+
+# iTerm2, macOS terminal emulator with enhanced features
 cask "iterm2"
+
+
