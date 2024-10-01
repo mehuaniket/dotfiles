@@ -92,6 +92,7 @@ plugins=(
     zsh-autosuggestions
     zsh-syntax-highlighting
     kubectl
+    z
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -143,6 +144,7 @@ eval $(thefuck --alias)
 
 # zoxide init
 eval $(zoxide init zsh)
+alias cd="z"
 
 # fzf, use fd instead of find (fd reads ~/.fdignore)
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
