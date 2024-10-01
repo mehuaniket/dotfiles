@@ -1,0 +1,58 @@
+
+# <type>[(optional scope)]: <subject>
+#
+# What and Why:
+# - Briefly describe what the change is and why it was necessary.
+# - Provide relevant context or references if applicable.
+#
+# How:
+# - Outline the key changes made to implement the fix/feature.
+# - Keep it concise but detailed enough for a reviewer to understand the approach.
+#
+# Breaking changes:
+# - If applicable, describe any changes that could break backward compatibility.
+#
+# Optional footers:
+# - Add any references to related issues, pull requests, or other tracking items.
+#   - Use keywords like "close #ISSUE-NUMBER", "fix #ISSUE-NUMBER", "resolve #ISSUE-NUMBER"
+#
+# --------------------
+# Conventional Commits Specification
+# --------------------
+#
+# Type:
+#   fix:      A bug fix.
+#   feat:     A new feature.
+#   docs:     Changes related to documentation.
+#   style:    Code style changes (no functional impact).
+#   refactor: Refactoring code without changing behavior.
+#   perf:     Performance improvements.
+#   test:     Adding or updating tests.
+#   build:    Changes to the build process or dependencies.
+#   ci:       Changes to CI configuration files and scripts.
+#   chore:    Routine tasks or maintenance work.
+#   revert:   Reverts a previous commit.
+#
+# Optional scope:
+#   init:     Initialization work.
+#   security: Security patches or updates.
+#   deps:     Dependency upgrades or downgrades.
+#   config:   Configuration changes.
+#   i18n:     Internationalization and localization updates.
+#
+# Subject:
+#   - A short summary of the change (imperative mood, 100 characters or less).
+#   - No ending period.
+#   - Start with a lowercase letter.
+#
+# Body (optional):
+#   - Explain why this change is being made.
+#   - Wrap text to around 100 characters.
+#   - Use bullet points for multiple aspects.
+#
+# Footer(s) (optional):
+#   - Provide links to related issues, pull requests, or tickets.
+#   - Close issues with keywords (e.g., close #123, fix #456).
+#
+# Reference:
+#   - Conventional Commits: https://www.conventionalcommits.org/
