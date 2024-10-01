@@ -116,6 +116,9 @@ brew "yq"
 # Internet file retriever
 brew "wget"
 
+# Shell extension to navigate your filesystem faster
+brew "zoxide"
+
 # FluxCD, for continuous deployment to Kubernetes clusters
 brew "fluxcd/tap/flux"
 
@@ -134,7 +137,14 @@ cask "dash"
 # Developer-friendly, patched monospace font with programming ligatures
 cask "font-hack-nerd-font"
 
+# Web browser
+cask "google-chrome"
+
 # iTerm2, macOS terminal emulator with enhanced features
 cask "iterm2"
 
+# Team communication and collaboration software
+cask "slack"
 
+# Multimedia player
+cask "vlc"
