@@ -23,6 +23,9 @@ tap "nikitabobko/tap"
 # ArgoCD, GitOps continuous delivery tool for Kubernetes
 brew "argocd"
 
+# delta for git 
+brew "git-delta"
+
 # Font configuration utility for system-wide fonts
 brew "fontconfig"
 
