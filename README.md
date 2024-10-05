@@ -1,6 +1,17 @@
 # dotfiles
 
-### Setup
+## Setup
+
+### Install Homebrew Packages:
+```bash
+# Leaving a machine
+brew bundle dump --force 
+
+# Fresh enstallation
+brew bundle install && brew cleanup
+```
+
+### Stowing
 
 ```bash
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/mehuaniket/dotfiles/main/scripts/setup.sh)" 
@@ -18,22 +29,5 @@ zsh -c "$(curl -fsSL https://raw.githubusercontent.com/mehuaniket/dotfiles/main/
 ```bash
 nvim .
 ```
-
-### Install with stow:
-
-```bash
-stow --target .
-```
-
-### Install Homebrew Packages:
-```bash
-# Leaving a machine
-
-brew bundle dump --force 
-
-# Fresh enstallation
-brew bundle install && brew cleanup
-```
-
 
 - Refer to [blog](https://mehuaniket.com/blog/how-do-i-setup-my-mac/)

@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 # Function to install a brew package if not already installed
@@ -10,6 +11,62 @@ install_brew_package() {
   fi
 }
 
+# Parse command-line arguments
+brew_install=false
+
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    --brew) brew_install=true; shift ;;
+    *) echo "Unknown parameter passed: $1"; exit 1 ;;
+  esac
+  shift
+done
+
+# Install Homebrew packages if --brew true is passed
+if [ "$brew_install" = true ]; then
+  echo "Installing brew packages..."
+
+  # Install Homebrew if not already installed
+  if ! command -v brew &>/dev/null; then
+    echo "Homebrew is not installed. Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    # Add brew to zshrc if it's not already there
+    if ! grep -q 'eval "$(/opt/homebrew/bin/brew shellenv)"' ~/.zshrc; then
+      echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshrc
+    fi
+    source ~/.zshrc
+  else
+    echo "Homebrew is already installed."
+  fi
+
+  # Install necessary brew packages
+  install_brew_package iterm2
+  install_brew_package node
+  install_brew_package fzf
+  install_brew_package fd
+  install_brew_package ripgrep
+  install_brew_package kubectl
+  install_brew_package terraform
+  install_brew_package jq
+  install_brew_package tmux
+  install_brew_package gh
+  install_brew_package go
+  install_brew_package neovim
+  install_brew_package fontconfig
+
+  # Install Nerd Font using alternative method
+  if ! fc-list | grep -qi "Hack Nerd Font"; then
+    echo "Downloading and installing Hack Nerd Font..."
+    brew install --cask font-hack-nerd-font
+  else
+    echo "Hack Nerd Font is already installed."
+  fi
+
+  install_brew_package stow
+else
+  echo "--brew flag not passed. Skipping Homebrew package installations."
+fi
+
 # # Install dotfiles using stow with --delete option
 if [ ! -d "$HOME/.dotfiles" ]; then
   echo "Cloning dotfiles..."
@@ -17,35 +74,6 @@ if [ ! -d "$HOME/.dotfiles" ]; then
 fi
 
 cd ~/.dotfiles
-
-# Install Homebrew if not already installed
-if ! command -v brew &>/dev/null; then
-  echo "Homebrew is not installed. Installing Homebrew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  # Add brew to zshrc if it's not already there
-  if ! grep -q 'eval "$(/opt/homebrew/bin/brew shellenv)"' ~/.zshrc; then
-    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshrc
-  fi
-  source ~/.zshrc
-else
-  echo "Homebrew is already installed."
-fi
-
-# Install iTerm2
-install_brew_package iterm2
-install_brew_package node
-
-# Install fzf and fd
-install_brew_package fzf
-install_brew_package fd
-install_brew_package ripgrep
-# Install kubectl and terraform
-install_brew_package kubectl
-install_brew_package terraform
-install_brew_package jq
-
-install_brew_package llvm
-
 
 # Check if Oh My Zsh is already installed
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
@@ -90,12 +118,7 @@ if [ -d "$ZSH_THEME_DIR" ]; then
   rm -rf "$ZSH_THEME_DIR"
 fi
 echo "Installing Powerlevel10k..."
-
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
-
-
-# Install tmux
-install_brew_package tmux
 
 # Setup tmux plugin manager and configuration if not already setup
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
@@ -105,42 +128,9 @@ else
   echo "Tmux Plugin Manager (TPM) is already set up."
 fi
 
-# Install GitHub CLI
-install_brew_package gh
-
-# Install Rust if not already installed
-if ! command -v rustc &>/dev/null; then
-  echo "Installing Rust..."
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-else
-  echo "Rust is already installed."
-fi
-
-# Install Go
-install_brew_package go
-
-# Install Neovim
-install_brew_package neovim
-
-# Check for fc-list command (usually part of the fontconfig package)
-if ! command -v fc-list &>/dev/null; then
-  echo "Installing fontconfig..."
-  brew install fontconfig
-fi
-
-# Install Nerd Font using alternative method as cask-fonts is deprecated
-if ! fc-list | grep -qi "Hack Nerd Font"; then
-  echo "Downloading and installing Hack Nerd Font..."
-  brew install --cask font-hack-nerd-font
-else
-  echo "Hack Nerd Font is already installed."
-fi
-
-# touch ~/.tmux.conf
-install_brew_package stow
-
 cd ~/.dotfiles
 
+# Stow dotfiles with deletion of existing conflicts
 echo "Stowing dotfiles with deletion of existing conflicts..."
 stow nvim
 
@@ -148,9 +138,7 @@ rm ~/.zshrc || true
 rm ~/.p10k.zsh || true
 
 stow zsh
-
 stow tmux
-
 stow fzf
 
 # Source Zsh configuration to apply changes
@@ -164,6 +152,4 @@ fi
 tmux source ~/.tmux.conf
 tmux run '~/.tmux/plugins/tpm/scripts/install_plugins.sh'
 
-
 echo "Setup complete! Please restart your terminal."
-
