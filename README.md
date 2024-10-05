@@ -21,7 +21,7 @@ brew bundle install && brew cleanup
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/mehuaniket/dotfiles/main/scripts/setup.sh)" 
 
 ```
-
+- Run ctr + space + f to reload tmux config.
 - Import `iterm_default_profile.json` by going to settings > profiles >  
   other actions > import JSON profiles
 - Delete old default profile
