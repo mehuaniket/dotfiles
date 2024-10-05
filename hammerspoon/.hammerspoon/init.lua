@@ -1,5 +1,5 @@
 -- Hammerspoon Configuration
-
+hs = hs or {}
 -- Global variables
 local hyper = { "ctrl", "alt", "cmd" }
 
@@ -41,37 +41,6 @@ end)
 hs.hotkey.bind(hyper, "L", function()
 	hs.caffeinate.lockScreen()
 end)
-
--- Clipboard Manager Example
-clipboard_history = {}
-
--- Function to save current clipboard contents to history
-function saveClipboard()
-	local content = hs.pasteboard.getContents()
-	if content ~= nil and content ~= "" then
-		table.insert(clipboard_history, content)
-	end
-end
-
--- Hotkey to display clipboard history
-hs.hotkey.bind(hyper, "V", function()
-	local choices = hs.fnutils.imap(clipboard_history, function(item)
-		return { text = item }
-	end)
-	local chooser = hs.chooser.new(function(choice)
-		if choice then
-			hs.pasteboard.setContents(choice.text)
-		end
-	end)
-	chooser:choices(choices)
-	chooser:show()
-end)
-
--- Automatically save clipboard contents when it changes
-hs.pasteboard.watcher.new(saveClipboard):start()
-
--- Notify when Hammerspoon is loaded
-hs.notify.new({ title = "Hammerspoon", informativeText = "Config loaded" }):send()
 
 -- Function to move the mouse to the center of the focused window
 function focusMouseOnWindow()
@@ -212,7 +181,6 @@ hs.hotkey.bind(hyper, "K", moveWindowToNextDisplay)
 -- Function to reload Hammerspoon configuration
 function reloadConfig()
 	hs.reload()
-	hs.alert.show("Hammerspoon config reloaded")
 end
 
 -- Bind a hotkey to reload the Hammerspoon configuration
