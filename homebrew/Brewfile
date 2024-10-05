@@ -17,6 +17,9 @@ tap "nikitabobko/tap"
 # ArgoCD, GitOps continuous delivery tool for Kubernetes
 brew "argocd"
 
+# bat
+brew "bat"
+
 # delta for git 
 brew "git-delta"
 
