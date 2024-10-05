@@ -95,3 +95,14 @@ hs.window.filter.default:subscribe(hs.window.filter.windowFocused, focusMouseOnW
 
 -- Notify when Hammerspoon is loaded and this functionality is active
 hs.notify.new({ title = "Hammerspoon", informativeText = "Mouse will follow window focus" }):send()
+
+-- **Toggle Full Screen (Option + F)**
+hs.hotkey.bind(hyper, "F", function()
+	local win = hs.window.focusedWindow() -- Get the focused window
+	if win then
+		win:toggleFullScreen() -- Toggle full screen
+	end
+end)
+
+-- Notify when configuration is loaded
+hs.notify.new({ title = "Hammerspoon", informativeText = "Full screen toggle loaded" }):send()

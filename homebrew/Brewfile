@@ -134,9 +134,6 @@ brew "fluxcd/tap/flux@2.2"
 # Enable Windows-like alt-tab
 cask "alt-tab"
 
-# API documentation browser and code snippet manager
-cask "dash"
-
 # Developer-friendly, patched monospace font with programming ligatures
 cask "font-hack-nerd-font"
 
