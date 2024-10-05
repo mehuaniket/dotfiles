@@ -5,12 +5,6 @@ tap "fluxcd/tap"
 # Homebrew bundle for managing Brewfile dependencies
 tap "homebrew/bundle"
 
-# Homebrew Cask for managing GUI apps
-tap "homebrew/cask"
-
-# Homebrew Cask for font management
-tap "homebrew/cask-fonts"
-
 # Homebrew tap for upgrading Cask apps
 tap "buo/cask-upgrade"
 

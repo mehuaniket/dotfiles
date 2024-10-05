@@ -32,7 +32,7 @@ stow --target .
 brew bundle dump --force 
 
 # Fresh enstallation
-brew bundle install
+brew bundle install && brew cleanup
 ```
 
 
