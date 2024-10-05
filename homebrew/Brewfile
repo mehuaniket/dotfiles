@@ -41,6 +41,9 @@ brew "go"
 # Helm, package manager for Kubernetes
 brew "helm"
 
+# hammerspoon adding scripting ability to do things
+brew "hammerspoon"
+
 # Command-line tool to fetch macOS Calendar data
 brew "ical-buddy"
 
