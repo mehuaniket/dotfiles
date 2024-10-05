@@ -149,7 +149,7 @@ else
   exit 1
 fi
 
-tmux source ~/.tmux.conf
+tmux source ~/.config/tmux/tmux.conf
 tmux run '~/.tmux/plugins/tpm/scripts/install_plugins.sh'
 
 echo "Setup complete! Please restart your terminal."
