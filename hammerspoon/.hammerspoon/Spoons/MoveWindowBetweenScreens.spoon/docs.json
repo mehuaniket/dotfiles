@@ -1,0 +1,39 @@
+
+{
+  "MoveWindowBetweenScreens": {
+    "desc": "Moves windows between screens and handles full-screen mode correctly.",
+    "methods": {
+      "moveWindowToScreen": {
+        "desc": "Moves a window to the specified screen (next or previous) and handles full-screen mode.",
+        "params": [
+          {
+            "name": "win",
+            "type": "hs.window object",
+            "desc": "The window to be moved."
+          },
+          {
+            "name": "screenFn",
+            "type": "function",
+            "desc": "Function to determine the target screen (e.g., screen:next or screen:previous)."
+          }
+        ]
+      },
+      "centerMouseInWindow": {
+        "desc": "Moves the mouse to the center of the specified window.",
+        "params": [
+          {
+            "name": "win",
+            "type": "hs.window object",
+            "desc": "The window to center the mouse in."
+          }
+        ]
+      },
+      "moveWindowToNextDisplay": {
+        "desc": "Moves the currently focused window to the next display."
+      },
+      "moveWindowToPreviousDisplay": {
+        "desc": "Moves the currently focused window to the previous display."
+      }
+    }
+  }
+}
