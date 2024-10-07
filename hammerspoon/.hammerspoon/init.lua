@@ -15,7 +15,7 @@ hs.loadSpoon("MoveWindowBetweenScreens")
 -- Set up hotkeys
 spoon.MoveWindowBetweenScreens:bindHotkeys({
 	moveWindowToNextDisplay = { hyper, "right" },
-	moveWindowToPreviousDisplay = { { "cmd", "alt" }, "left" },
+	moveWindowToPreviousDisplay = { hyper, "left" },
 })
 
 -- Use SpoonInstall to install MouseFollowsFocus Spoon
