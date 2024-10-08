@@ -20,6 +20,9 @@ brew "argocd"
 # bat
 brew "bat"
 
+# to disect docker images
+brew "dive"
+
 # delta for git 
 brew "git-delta"
 
