@@ -1,6 +1,6 @@
 [user]
   name = "Aniket Patel"
-  email = 8078990+mehuaniket@users.noreply.github.com
+  email = "8078990+mehuaniket@users.noreply.github.com"
 
 [include]
   path = ~/.gitconfig.local
@@ -102,9 +102,15 @@
 [merge]
   # Include summaries of merged commits in newly created merge commit messages
   log = true
+  conflictstyle = diff3
 
 [delta]
-  features = line-numbers decorations
+  features = line-numbers decorations merge-conflict
+  navigate = true
+  syntax-theme = "Catppuccin Mocha"
+
+[delta "merge-conflict"]
+  markers = "conflict-begin:<<<<<<, conflict-separator:====, conflict-end:>>>>>>"
 
 [delta "decorations"]
   commit-decoration-style = bold yellow box ul
