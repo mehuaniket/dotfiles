@@ -140,21 +140,21 @@ export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 source <(fzf --zsh)
 export FZF_CTRL_T_OPTS="--walker-skip .DS_Store,.CFUserTextEncoding,.local,.tmux,.rustup,.ssh,.cache,.Trash,.supermaven,.zsh_sessions,.oh-my-zsh,.git,node_modules,.cargo,target,Library,Applications,Music,Desktop,Documents,Movies,Pictures,go,.cache,.config,.npm --preview 'bat -n --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
 
-# fuck init
-eval $(thefuck --alias) 
-
-# zoxide init
-eval $(zoxide init zsh)
-# alias cd="z"
-
 # fzf, use fd instead of find (fd reads ~/.fdignore)
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git --color always'
 
 # Ctrl + T command
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 
 # Alt + C command (ESC + C on MacOS)
 export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude .git'
+
+# fuck init
+eval $(thefuck --alias) 
+
+# zoxide init
+eval "$(zoxide init zsh)"
+autoload -U compinit && compinit
 
 # "**" command syntax
 _fzf_compgen_path() {
@@ -172,7 +172,32 @@ export K9S_CONFIG_DIR="$HOME/.config/k9s"
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
-setopt appendhistory
+
+# zsh options
+## changing directories
+setopt auto_cd
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt pushd_silent
+setopt pushd_to_home
+## Globbing
+setopt extended_glob
+setopt no_case_glob
+setopt numeric_glob_sort
+setopt glob
+## History
+setopt append_history
+setopt hist_ignore_all_dups
+setopt hist_reduce_blanks
+setopt hist_verify
+setopt share_history
+## I/O
+setopt correct
+setopt print_exit_value
+## Job Control
+setopt autoresume
+## Scripts
+setopt multios
 
 # git
 alias git_config_mehuaniket="git config --local user.name \"Aniket Patel\" && git config user.email 8078990+mehuaniket@users.noreply.github.com"
