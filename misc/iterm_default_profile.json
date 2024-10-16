@@ -7,7 +7,13 @@
     "Alpha Component" : 1,
     "Green Component" : 0.67843137254901964
   },
-  "Non-ASCII Anti Aliased" : true,
+  "Ansi 12 Color (Light)" : {
+    "Red Component" : 0.11764705882352941,
+    "Color Space" : "sRGB",
+    "Blue Component" : 0.96078431372549022,
+    "Alpha Component" : 1,
+    "Green Component" : 0.40000000000000002
+  },
   "Cursor Text Color" : {
     "Red Component" : 0,
     "Color Space" : "sRGB",
@@ -51,7 +57,7 @@
     "Alpha Component" : 1,
     "Green Component" : 0.8784313725490196
   },
-  "Initial Text" : "tmux ls && read tmux_session && tmux attach -t ${tmux_session:-default} || tmux new -s ${tmux_session:-default}",
+  "Initial Text" : "",
   "Selection Color (Dark)" : {
     "Red Component" : 0.34509803921568627,
     "Color Space" : "sRGB",
@@ -78,7 +84,7 @@
   },
   "Transparency" : 0,
   "Use Bright Bold" : true,
-  "Horizontal Spacing" : 1,
+  "Horizontal Spacing" : 1.01,
   "Ansi 13 Color (Light)" : {
     "Red Component" : 0.91764705882352937,
     "Color Space" : "sRGB",
@@ -152,6 +158,7 @@
   },
   "Vertical Spacing" : 1,
   "Use Tab Color (Light)" : false,
+  "Cursor Type" : 2,
   "Columns" : 120,
   "Ansi 2 Color (Light)" : {
     "Red Component" : 0.25098039215686274,
@@ -351,7 +358,7 @@
     "Alpha Component" : 1,
     "Green Component" : 0.62745098039215685
   },
-  "Normal Font" : "JetBrainsMonoNF-Regular 15",
+  "Normal Font" : "JetBrainsMonoNF-Regular 14 {\"featureSettings\":[{\"CTFeatureSelectorIdentifier\":38,\"CTFeatureTypeIdentifier\":35},{\"CTFeatureSelectorIdentifier\":2,\"CTFeatureTypeIdentifier\":35}]}",
   "Use Selected Text Color (Dark)" : true,
   "Foreground Color" : {
     "Red Component" : 0.86197912693023682,
@@ -742,7 +749,7 @@
     "Alpha Component" : 1,
     "Green Component" : 0.76959484815597534
   },
-  "Blinking Cursor" : false,
+  "Blinking Cursor" : true,
   "Ansi 6 Color (Light)" : {
     "Red Component" : 0.090196078431372534,
     "Color Space" : "sRGB",
@@ -796,13 +803,6 @@
     "Alpha Component" : 1,
     "Green Component" : 0
   },
-  "Ansi 12 Color (Light)" : {
-    "Red Component" : 0.11764705882352941,
-    "Color Space" : "sRGB",
-    "Blue Component" : 0.96078431372549022,
-    "Alpha Component" : 1,
-    "Green Component" : 0.40000000000000002
-  },
   "Ansi 0 Color" : {
     "Red Component" : 0.078431375324726105,
     "Color Space" : "sRGB",
@@ -810,6 +810,7 @@
     "Alpha Component" : 1,
     "Green Component" : 0.098039217293262454
   },
+  "Non-ASCII Anti Aliased" : true,
   "Foreground Color (Dark)" : {
     "Red Component" : 0.80392156862745101,
     "Color Space" : "sRGB",

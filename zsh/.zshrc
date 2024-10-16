@@ -93,8 +93,12 @@ plugins=(
     zsh-syntax-highlighting
     kubectl
     z
+    tmux
 )
 
+export ZSH_TMUX_AUTOSTART=true
+export ZSH_TMUX_AUTONAME_SESSION=true
+export ZSH_TMUX_DEFAULT_SESSION_NAME=true
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
