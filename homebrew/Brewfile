@@ -140,6 +140,9 @@ cask "alt-tab"
 # Developer-friendly, patched monospace font with programming ligatures
 cask "font-hack-nerd-font"
 
+# nerd fonts from jetbrains
+cask "font-jetbrains-mono-nerd-font"
+
 # Web browser
 cask "google-chrome"
 

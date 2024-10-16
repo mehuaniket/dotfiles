@@ -351,7 +351,7 @@
     "Alpha Component" : 1,
     "Green Component" : 0.62745098039215685
   },
-  "Normal Font" : "HackNF-Regular 15",
+  "Normal Font" : "JetBrainsMonoNF-Regular 15",
   "Use Selected Text Color (Dark)" : true,
   "Foreground Color" : {
     "Red Component" : 0.86197912693023682,
