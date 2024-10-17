@@ -94,11 +94,9 @@ plugins=(
     kubectl
     z
     tmux
+    web-search
 )
 
-export ZSH_TMUX_AUTOSTART=true
-export ZSH_TMUX_AUTONAME_SESSION=true
-export ZSH_TMUX_DEFAULT_SESSION_NAME=true
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
