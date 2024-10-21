@@ -230,6 +230,6 @@ alias ......="cd ../../../../.."
 
 # navigation
 cx() { cd "$@" && ls -l }
-fcd() { cd "$(fd --type d --hidden --exclude .git | fzf)" && ls -l }
-fcopy() { echo "$(fzf)" | pbcopy }
-fvi() { nvim "$(fzf)" }
+fcd() { cd "$(fd --type d --exclude .git | fzf --no-color --ansi)" && ls -l }
+fcopy() { echo "$(fd --type f --exclude .git | fzf --no-color --ansi)" | pbcopy }
+fvi() { nvim "$(fd --exclude .git | fzf --no-color --ansi)" }
