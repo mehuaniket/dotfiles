@@ -63,7 +63,7 @@
     "Alpha Component" : 1,
     "Green Component" : 0.8784313725490196
   },
-  "Initial Text" : "",
+  "Initial Text" : "tmux ls && read tmux_session && tmux attach -t ${tmux_session:-default} || tmux new -s ${tmux_session:-default}",
   "Selection Color (Dark)" : {
     "Red Component" : 0.34509803921568627,
     "Color Space" : "sRGB",
