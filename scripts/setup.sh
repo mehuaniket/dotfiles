@@ -121,9 +121,9 @@ echo "Installing Powerlevel10k..."
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 
 # Setup tmux plugin manager and configuration if not already setup
-if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+if [ ! -d "$HOME/.config/tmux/plugins/tpm" ]; then
   echo "Setting up tmux..."
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 else
   echo "Tmux Plugin Manager (TPM) is already set up."
 fi
@@ -150,6 +150,6 @@ else
 fi
 
 tmux source ~/.config/tmux/tmux.conf
-tmux run '~/.tmux/plugins/tpm/scripts/install_plugins.sh'
+tmux run '~/.config/tmux/plugins/tpm/scripts/install_plugins.sh'
 
 echo "Setup complete! Please restart your terminal."
