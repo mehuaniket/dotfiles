@@ -119,6 +119,9 @@ brew "velero"
 # Command-line YAML processor like `jq` for JSON
 brew "yq"
 
+# watch command
+brew "watch"
+
 # Internet file retriever
 brew "wget"
 
