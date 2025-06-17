@@ -6,7 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your Oh My Zsh installation.
 source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel9k.zsh-theme
@@ -100,7 +100,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-
+export PATH=/usr/local/opt/python/libexec/bin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -209,6 +209,16 @@ alias git_config_mehuaniket="git config --local user.name \"Aniket Patel\" && gi
 # alias git_config_work="git config --local user.name \"Aniket Patel\" git config user.email 8078990+work@users.noreply.github.com"
 alias git_prune="git reflog expire --expire-unreachable=now --all && git gc --prune=now"
 alias glog="git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N' --abbrev-commit"
+alias glme='git log --author="Your Name"'
+alias modbash="vi ~/.zshrc; source ~/.zshrc" # Allows you to modify the bash file via vi and immediately allow the new aliases to be used
+alias mergefrom="git rebase -p" # Usage: git checkout my_branch; mergefrom develop
+alias gcod="git checkout develop"
+alias gcob="git checkout -b"
+alias gcom="git checkout -" # Returns you to the branch you were just on
+alias grename="git branch -m" # Usage: rename my_current_branch_name my_desired_branch_name
+alias grebcont="ga .; git rebase --continue" # Use while rebasing after fixing all conflicts
+alias gamend="git commit --amend --no-edit" #Useful for merging all staged changes into the previous commit.
+alias gl="git log --pretty=oneline -n 20 --graph --abbrev-commit" #Pretty prints the git tree of the last 20 commits.
 
 # nvim
 alias vim="nvim"
@@ -236,3 +246,4 @@ cx() { cd "$@" && ls -l }
 fcd() { cd "$(fd --type d --exclude .git | fzf --no-color --ansi)" && ls -l }
 fcopy() { echo "$(fd --type f --exclude .git | fzf --no-color --ansi)" | pbcopy }
 fvi() { nvim "$(fd --exclude .git | fzf --no-color --ansi)" }
+
