@@ -7,9 +7,13 @@ fi
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export PATH=/usr/local/opt/python/libexec/bin:$PATH
+# LLVM
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 
 # Path to your Oh My Zsh installation.
-source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel9k.zsh-theme
 export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
@@ -89,18 +93,18 @@ zstyle ':omz:update' frequency 15
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     git
-    zsh-autosuggestions
-    zsh-syntax-highlighting
     kubectl
     z
     tmux
     web-search
+    zsh-autosuggestions
+    zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-export PATH=/usr/local/opt/python/libexec/bin:$PATH
+# export PATH=/usr/local/opt/python/libexec/bin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -132,17 +136,17 @@ alias ohmyzsh="nvim ~/.oh-my-zsh"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# LLVM 
-export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-
-export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
-
 # tmux
 export TMUX_CONF="$HOME/.config/tmux/tmux.conf"
 
-# fzf init
-source <(fzf --zsh)
+# fzf init (prefer brew-installed bindings/completions)
+if command -v brew >/dev/null 2>&1; then
+  FZF_BASE="$(brew --prefix)/opt/fzf"
+  [ -f "$FZF_BASE/shell/key-bindings.zsh" ] && source "$FZF_BASE/shell/key-bindings.zsh"
+  [ -f "$FZF_BASE/shell/completion.zsh" ] && source "$FZF_BASE/shell/completion.zsh"
+elif command -v fzf >/dev/null 2>&1; then
+  source <(fzf --zsh)
+fi
 export FZF_CTRL_T_OPTS="--walker-skip .DS_Store,.CFUserTextEncoding,.local,.tmux,.rustup,.ssh,.cache,.Trash,.supermaven,.zsh_sessions,.oh-my-zsh,.git,node_modules,.cargo,target,Library,Applications,Music,Desktop,Documents,Movies,Pictures,go,.cache,.config,.npm --preview 'bat -n --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
 
 # fzf, use fd instead of find (fd reads ~/.fdignore)
@@ -154,12 +158,23 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 # Alt + C command (ESC + C on MacOS)
 export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude .git'
 
-# fuck init
-eval $(thefuck --alias) 
+# fuck init (guarded)
+if command -v thefuck >/dev/null 2>&1; then
+  eval $(thefuck --alias)
+fi
 
-# zoxide init
-eval "$(zoxide init zsh)"
-autoload -U compinit && compinit
+# zoxide init (guarded)
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
+# Completion init with cache
+autoload -Uz compinit
+mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+ZSH_COMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompdump-$ZSH_VERSION"
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompcache"
+compinit -d "$ZSH_COMPDUMP"
 
 # "**" command syntax
 _fzf_compgen_path() {

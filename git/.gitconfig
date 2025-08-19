@@ -1,12 +1,13 @@
 [user]
   name = "Aniket Patel"
-  email = "8078990+mehuaniket@users.noreply.github.com"
+	useConfigOnly = true
 
 [include]
   path = ~/.gitconfig.local
 
+# Optional: workspace-specific overrides without exposing secrets in repo
 [includeIf "gitdir:~/Projects/"]
-  path = ~/Projects/.gitconfig.work
+  path = ~/.gitconfig.work
 
 [status]
   submoduleSummary = true
@@ -161,3 +162,8 @@
 
 [init]
   defaultBranch = main
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process

@@ -1,18 +1,35 @@
 
 #!/bin/bash
+set -euo pipefail
+
+log() { printf "[setup] %s\n" "$*"; }
+warn() { printf "[setup][warn] %s\n" "$*"; }
+err() { printf "[setup][error] %s\n" "$*" 1>&2; }
 
 # Function to install a brew package if not already installed
 install_brew_package() {
-  if ! brew list "$1" >/dev/null 2>&1; then
-    echo "Installing $1..."
-    brew install "$1"
+  local formula="$1"
+  if ! brew list --formula "$formula" >/dev/null 2>&1; then
+    log "Installing formula: $formula"
+    brew install "$formula"
   else
-    echo "$1 is already installed."
+    log "$formula is already installed."
+  fi
+}
+
+install_brew_cask() {
+  local cask_name="$1"
+  if ! brew list --cask "$cask_name" >/dev/null 2>&1; then
+    log "Installing cask: $cask_name"
+    brew install --cask "$cask_name"
+  else
+    log "$cask_name cask is already installed."
   fi
 }
 
 # Parse command-line arguments
 brew_install=false
+stow_targets=("zsh" "tmux" "fzf" "nvim")
 
 while [[ "$#" -gt 0 ]]; do
   case $1 in
@@ -24,23 +41,31 @@ done
 
 # Install Homebrew packages if --brew true is passed
 if [ "$brew_install" = true ]; then
-  echo "Installing brew packages..."
+  log "Installing brew packages..."
 
   # Install Homebrew if not already installed
   if ! command -v brew &>/dev/null; then
-    echo "Homebrew is not installed. Installing Homebrew..."
+    log "Homebrew is not installed. Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     # Add brew to zshrc if it's not already there
-    if ! grep -q 'eval "$(/opt/homebrew/bin/brew shellenv)"' ~/.zshrc; then
-      echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshrc
+    if ! grep -q 'eval "$(/opt/homebrew/bin/brew shellenv)"' "$HOME/.zshrc" 2>/dev/null; then
+      echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zshrc"
     fi
-    source ~/.zshrc
+    eval "$($(command -v brew) shellenv)"
   else
-    echo "Homebrew is already installed."
+    log "Homebrew is already installed."
+    eval "$($(command -v brew) shellenv)"
+  fi
+
+  # Use Brewfile for reproducible installs
+  if [ -f "$HOME/.dotfiles/homebrew/Brewfile" ]; then
+    log "Running brew bundle..."
+    brew bundle --file="$HOME/.dotfiles/homebrew/Brewfile" || warn "brew bundle encountered issues"
+  else
+    warn "Brewfile not found; falling back to ad-hoc installs"
   fi
 
   # Install necessary brew packages
-  install_brew_package iterm2
   install_brew_package node
   install_brew_package fzf
   install_brew_package fd
@@ -56,100 +81,94 @@ if [ "$brew_install" = true ]; then
 
   # Install Nerd Font using alternative method
   if ! fc-list | grep -qi "Hack Nerd Font"; then
-    echo "Downloading and installing Hack Nerd Font..."
-    brew install --cask font-hack-nerd-font
+    log "Installing Hack Nerd Font..."
+    install_brew_cask font-hack-nerd-font
   else
-    echo "Hack Nerd Font is already installed."
+    log "Hack Nerd Font is already installed."
   fi
 
   install_brew_package stow
 else
-  echo "--brew flag not passed. Skipping Homebrew package installations."
+  warn "--brew flag not passed. Skipping Homebrew package installations."
 fi
 
 # # Install dotfiles using stow with --delete option
 if [ ! -d "$HOME/.dotfiles" ]; then
-  echo "Cloning dotfiles..."
-  git clone --recurse-submodules https://github.com/mehuaniket/dotfiles ~/.dotfiles
+  log "Cloning dotfiles..."
+  git clone --recurse-submodules https://github.com/mehuaniket/dotfiles "$HOME/.dotfiles"
 fi
 
 cd ~/.dotfiles
 
-# Check if Oh My Zsh is already installed
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  echo "Installing Oh My Zsh..."
+  log "Installing Oh My Zsh..."
   RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-  # Switch to Zsh immediately after installation
-  exec zsh
 else
-  echo "Oh My Zsh is already installed at $HOME/.oh-my-zsh. Skipping installation."
+  log "Oh My Zsh already installed."
 fi
 
-# Switch to Zsh if not already using it
-if [ "$SHELL" != "$(which zsh)" ]; then
-  echo "Switching to Zsh..."
-  chsh -s "$(which zsh)"
-  exec zsh  # Switch to Zsh immediately
+# Switch default shell to zsh if needed
+if [ "$SHELL" != "$(command -v zsh)" ]; then
+  log "Setting default shell to zsh..."
+  chsh -s "$(command -v zsh)" || warn "chsh failed; you may need to run it manually."
 fi
 
-# Clone Zsh plugins after removing existing directories
 ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
+mkdir -p "$ZSH_CUSTOM/plugins" "$ZSH_CUSTOM/themes"
 
-# Remove and re-clone zsh-autosuggestions
-if [ -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
-  echo "Removing existing zsh-autosuggestions..."
-  rm -rf "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
-fi
-echo "Cloning zsh-autosuggestions..."
-git clone https://github.com/zsh-users/zsh-autosuggestions.git "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
-
-# Remove and re-clone zsh-syntax-highlighting
-if [ -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
-  echo "Removing existing zsh-syntax-highlighting..."
-  rm -rf "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
-fi
-echo "Cloning zsh-syntax-highlighting..."
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
-
-# Remove and re-clone Powerlevel10k theme
-ZSH_THEME_DIR="$ZSH_CUSTOM/themes/powerlevel10k"
-if [ -d "$ZSH_THEME_DIR" ]; then
-  echo "Removing existing Powerlevel10k theme..."
-  rm -rf "$ZSH_THEME_DIR"
-fi
-echo "Installing Powerlevel10k..."
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
-
-# Setup tmux plugin manager and configuration if not already setup
-if [ ! -d "$HOME/.config/tmux/plugins/tpm" ]; then
-  echo "Setting up tmux..."
-  git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+  log "Installing zsh-autosuggestions..."
+  git clone https://github.com/zsh-users/zsh-autosuggestions.git "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
 else
-  echo "Tmux Plugin Manager (TPM) is already set up."
+  log "zsh-autosuggestions already present."
+fi
+
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+  log "Installing zsh-syntax-highlighting..."
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+else
+  log "zsh-syntax-highlighting already present."
+fi
+
+ZSH_THEME_DIR="$ZSH_CUSTOM/themes/powerlevel10k"
+if [ ! -d "$ZSH_THEME_DIR" ]; then
+  log "Installing Powerlevel10k..."
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_THEME_DIR"
+else
+  log "Powerlevel10k already present."
+fi
+
+if [ ! -d "$HOME/.config/tmux/plugins/tpm" ]; then
+  log "Installing tmux plugin manager (tpm)..."
+  git clone https://github.com/tmux-plugins/tpm "$HOME/.config/tmux/plugins/tpm"
+else
+  log "Tmux Plugin Manager (TPM) already present."
 fi
 
 cd ~/.dotfiles
 
-# Stow dotfiles with deletion of existing conflicts
-echo "Stowing dotfiles with deletion of existing conflicts..."
-stow nvim
-
-rm ~/.zshrc || true
-rm ~/.p10k.zsh || true
-
-stow zsh
-stow tmux
-stow fzf
-
-# Source Zsh configuration to apply changes
-if [ -f ~/.zshrc ]; then
-  source ~/.zshrc
+if command -v stow >/dev/null 2>&1; then
+  log "Stowing dotfiles..."
+  for target in "${stow_targets[@]}"; do
+    if [ -d "$target" ]; then
+      stow "$target" || warn "stow failed for $target"
+    fi
+  done
 else
-  echo "Error: ~/.zshrc does not exist."
-  exit 1
+  warn "stow is not installed; skip stowing. Re-run with --brew to install dependencies."
 fi
 
-tmux source ~/.config/tmux/tmux.conf
-tmux run '~/.config/tmux/plugins/tpm/scripts/install_plugins.sh'
+if [ -f "$HOME/.zshrc" ]; then
+  log "Sourcing ~/.zshrc"
+  # shellcheck disable=SC1090
+  source "$HOME/.zshrc"
+else
+  warn "~/.zshrc does not exist."
+fi
+
+if command -v tmux >/dev/null 2>&1; then
+  tmux source "$HOME/.config/tmux/tmux.conf" || true
+  "$HOME/.config/tmux/plugins/tpm/bin/install_plugins" || true
+fi
 
 echo "Setup complete! Please restart your terminal."

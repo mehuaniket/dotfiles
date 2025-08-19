@@ -1,8 +1,9 @@
 --target=~/
 --ignore=.stowrc
---ignore=DS_Store
+--ignore=.DS_Store
 --ignore=.gitignore
 --ignore=README.md
 --ignore=.gitmodules
 --ignore=scripts
 --ignore=homebrew
+--ignore=misc

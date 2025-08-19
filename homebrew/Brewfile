@@ -47,8 +47,8 @@ brew "go"
 # Helm, package manager for Kubernetes
 brew "helm"
 
-# hammerspoon adding scripting ability to do things
-brew "hammerspoon"
+# Hammerspoon: automation and scripting for macOS (cask)
+# moved to cask section below
 
 # Command-line tool to fetch macOS Calendar data
 brew "ical-buddy"
@@ -128,13 +128,10 @@ brew "wget"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
 
-# FluxCD, for continuous deployment to Kubernetes clusters
+# FluxCD, for continuous deployment to Kubernetes clusters (pin to latest tap formula)
 brew "fluxcd/tap/flux"
 
-# Specific version of FluxCD (v2.2)
-brew "fluxcd/tap/flux@2.2"
-
-# Windows manager for tiling in macOS
+# Window manager for tiling in macOS
 # cask "aerospace"
 
 # Enable Windows-like alt-tab
@@ -157,3 +154,6 @@ cask "slack"
 
 # Multimedia player
 cask "vlc"
+
+# Hammerspoon (cask)
+cask "hammerspoon"
