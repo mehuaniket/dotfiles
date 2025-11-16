@@ -5,6 +5,9 @@
 [include]
   path = ~/.gitconfig.local
 
+[includeIf "gitdir:~/Personal/"]
+  path = ~/.gitconfig.local
+
 # Optional: workspace-specific overrides without exposing secrets in repo
 [includeIf "gitdir:~/Projects/"]
   path = ~/.gitconfig.work
