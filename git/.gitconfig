@@ -29,8 +29,11 @@
 [core]
   editor = "nvim"
   excludesfile ="~/.gitignore"
-  pager = delta
+  pager = "delta --paging=never"
   autocrlf = input
+
+[pager]
+  diff = "delta --paging=never"
 
   # Make `git rebase` safer on macOS.
   # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
