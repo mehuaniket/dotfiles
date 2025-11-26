@@ -33,7 +33,8 @@
   autocrlf = input
 
 [pager]
-  diff = "delta --paging=never"
+  diff = "delta"
+  log = "delta"
 
   # Make `git rebase` safer on macOS.
   # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
