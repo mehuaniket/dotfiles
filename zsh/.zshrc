@@ -12,7 +12,11 @@ export PATH=/usr/local/opt/python/libexec/bin:$PATH
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
-
+# OpenJDK
+export PATH="/usr/local/opt/openjdk@17/bin:$PATH"
+export CPPFLAGS="-I/usr/local/opt/openjdk@17/include $CPPFLAGS"
+# Dart/Flutter
+export PATH="$PATH":"$HOME/.pub-cache/bin"
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -262,4 +266,6 @@ cx() { cd "$@" && ls -l }
 fcd() { cd "$(fd --type d --exclude .git | fzf --no-color --ansi)" && ls -l }
 fcopy() { echo "$(fd --type f --exclude .git | fzf --no-color --ansi)" | pbcopy }
 fvi() { nvim "$(fd --exclude .git | fzf --no-color --ansi)" }
-
+# Ruby
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
