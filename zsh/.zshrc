@@ -244,6 +244,9 @@ alias gl="git log --pretty=oneline -n 20 --graph --abbrev-commit" #Pretty prints
 alias vim="nvim"
 alias vi="nvim"
 
+# Applications
+alias cursor="open -a Cursor"
+
 ## Kubernetes
 alias k="kubectl"
 kn() { kubectl config set-context --current --namespace="$1" }
