@@ -138,6 +138,7 @@ alias ohmyzsh="nvim ~/.oh-my-zsh"
 
 # tmux
 export TMUX_CONF="$HOME/.config/tmux/tmux.conf"
+alias fix-tmux-plugins='find ~/.config/tmux/plugins -name "*.sh" -exec chmod +x {} \; && find ~/.config/tmux/plugins -name "*.tmux" -exec chmod +x {} \; && tmux source-file ~/.config/tmux/tmux.conf'
 
 # fzf init (prefer brew-installed bindings/completions)
 if command -v brew >/dev/null 2>&1; then
