@@ -181,6 +181,66 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompcache"
 compinit -d "$ZSH_COMPDUMP"
 
+# ============================================================================
+# Advanced Completion Configuration
+# ============================================================================
+
+# carapace completion
+# Note: CARAPACE_BRIDGES disabled to avoid conflicts with Oh My Zsh completions
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+if command -v carapace >/dev/null 2>&1; then
+  source <(carapace _carapace)
+fi
+
+# Completion styling and behavior
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
+zstyle ':completion:*:warnings' format '%F{red}-- no matches found --%f'
+zstyle ':completion:*:messages' format '%F{purple}-- %d --%f'
+zstyle ':completion:*:corrections' format '%F{green}-- %d (errors: %e) --%f'
+
+# Group completions by type
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' verbose yes
+
+# Menu selection (navigate completions with arrow keys)
+zstyle ':completion:*' menu select
+
+# Case-insensitive (all), partial-word and substring completion
+zstyle ':completion:*' matcher-list \
+  'm:{a-zA-Z}={A-Za-z}' \
+  'r:|[._-]=* r:|=*' \
+  'l:|=* r:|=*'
+
+# Color completion listings (like ls)
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# Completion paging (like less) for long lists
+zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+
+# Enhanced process completion
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+zstyle ':completion:*:*:kill:*' menu yes select
+zstyle ':completion:*:*:kill:*' force-list always
+zstyle ':completion:*:*:kill:*' insert-ids single
+
+# Enhanced cd completion (don't offer parent directory)
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
+
+# Enhanced ssh/scp/rsync completion (use known_hosts)
+zstyle ':completion:*:(ssh|scp|rsync):*' hosts off
+zstyle ':completion:*:(ssh|scp|rsync):*:*' users off
+
+# Ignore compiled files
+zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns '*?.o' '*?.pyc' '*~'
+
+# Separate directories from files
+zstyle ':completion:*' list-dirs-first true
+
+# Show more info for files
+zstyle ':completion:*' file-list all
+
 # "**" command syntax
 _fzf_compgen_path() {
   fd --hidden --follow --exclude ".git" . "$1"
@@ -223,6 +283,13 @@ setopt print_exit_value
 setopt autoresume
 ## Scripts
 setopt multios
+## Completion
+setopt always_to_end          # cursor moved to end after completion
+setopt auto_list               # automatically list choices on ambiguous completion
+setopt auto_menu               # show completion menu on successive tab press
+setopt complete_in_word        # complete from both ends of a word
+setopt list_packed             # compact completion lists
+setopt no_list_beep            # don't beep on ambiguous completions
 
 # git
 alias git_config_mehuaniket="git config --local user.name \"Aniket Patel\" && git config user.email 8078990+mehuaniket@users.noreply.github.com"
