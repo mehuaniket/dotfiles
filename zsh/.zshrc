@@ -1,8 +1,21 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# ============================================================================
+# Prompt Configuration (oh-my-posh in Ghostty, Powerlevel10k elsewhere)
+# ============================================================================
+
+# Detect if running in Ghostty terminal
+if [[ "$TERM_PROGRAM" == "ghostty" ]] || [[ -n "$GHOSTTY_RESOURCES_DIR" ]]; then
+  # Use oh-my-posh in Ghostty
+  if command -v oh-my-posh >/dev/null 2>&1; then
+    eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/p10k-lean.omp.json)"
+  fi
+else
+  # Use Powerlevel10k in other terminals (iTerm2, etc.)
+  # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+  # Initialization code that may require console input (password prompts, [y/n]
+  # confirmations, etc.) must go above this block; everything else may go below.
+  if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+  fi
 fi
 
 # If you come from bash you might have to change your $PATH.
@@ -24,7 +37,13 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# Use Powerlevel10k only when NOT in Ghostty (oh-my-posh handles prompt in Ghostty)
+if [[ "$TERM_PROGRAM" != "ghostty" ]] && [[ -z "$GHOSTTY_RESOURCES_DIR" ]]; then
+  ZSH_THEME="powerlevel10k/powerlevel10k"
+else
+  ZSH_THEME=""  # Disable Oh My Zsh theming in Ghostty
+fi
 
 # brew shell init 
 if [ -x "/opt/homebrew/bin/brew" ]; then
@@ -138,7 +157,10 @@ alias zshconfig-reload="source ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# Only load p10k config when NOT in Ghostty
+if [[ "$TERM_PROGRAM" != "ghostty" ]] && [[ -z "$GHOSTTY_RESOURCES_DIR" ]]; then
+  [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+fi
 
 # tmux
 export TMUX_CONF="$HOME/.config/tmux/tmux.conf"

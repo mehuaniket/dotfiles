@@ -149,6 +149,12 @@ cask "google-chrome"
 # iTerm2, macOS terminal emulator with enhanced features
 cask "iterm2"
 
+# Ghostty, fast GPU-accelerated terminal emulator
+cask "ghostty"
+
+# oh-my-posh, cross-platform prompt theme engine
+brew "oh-my-posh"
+
 # Team communication and collaboration software
 cask "slack"
 

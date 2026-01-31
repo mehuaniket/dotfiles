@@ -1,0 +1,116 @@
+# Ghostty Configuration
+# Managed via stow from ~/.dotfiles/ghostty/.config/ghostty/config
+
+# ============================================================================
+# Font Configuration
+# ============================================================================
+font-family = "JetBrains Mono Nerd Font"
+font-size = 15.5
+font-feature = ss01  # Stylistic set 1
+font-feature = calt  # Contextual alternates
+font-thicken = true
+
+# ============================================================================
+# Theme: Catppuccin Mocha (matching iTerm2)
+# ============================================================================
+# Load theme from file
+theme = catppuccin-mocha.conf
+
+# Ensure proper color rendering
+background-opacity = 1.0
+background-blur-radius = 0
+unfocused-split-opacity = 1.0
+
+# ============================================================================
+# Cursor Configuration
+# ============================================================================
+cursor-style = block
+cursor-style-blink = true
+cursor-opacity = 1.0
+
+# ============================================================================
+# Window Configuration
+# ============================================================================
+window-width = 120
+window-height = 30
+window-padding-x = 4
+window-padding-y = 4
+window-padding-balance = true
+window-decoration = true
+window-theme = dark
+window-save-state = always
+window-step-resize = true
+
+# ============================================================================
+# Terminal Behavior
+# ============================================================================
+# Terminal type for proper color support with tmux
+term = xterm-256color
+
+# Shell integration
+shell-integration = detect
+shell-integration-features = cursor,sudo,title
+
+# Auto-launch tmux (matching iTerm2 behavior)
+# command = /bin/zsh -c "tmux ls && read tmux_session && tmux attach -t ${tmux_session:-default} || tmux new -s ${tmux_session:-default}"
+
+# ============================================================================
+# Scrollback & Performance
+# ============================================================================
+scrollback-limit = 10000
+mouse-scroll-multiplier = 1.0
+
+# ============================================================================
+# Copy/Paste Behavior
+# ============================================================================
+copy-on-select = clipboard
+clipboard-trim-trailing-spaces = true
+clipboard-read = allow
+clipboard-write = allow
+clipboard-paste-protection = true
+clipboard-paste-bracketed-safe = true
+
+# ============================================================================
+# Bell & Notifications
+# ============================================================================
+# Note: Ghostty handles bell notifications through macOS system preferences
+
+# ============================================================================
+# Advanced Features
+# ============================================================================
+macos-option-as-alt = true
+macos-titlebar-style = tabs
+macos-auto-secure-input = true
+confirm-close-surface = false
+
+# ============================================================================
+# Keybindings (iTerm2-style)
+# ============================================================================
+keybind = cmd+t=new_tab
+keybind = cmd+w=close_surface
+keybind = cmd+shift+d=new_split:right
+keybind = cmd+d=new_split:down
+keybind = cmd+k=clear_screen
+keybind = cmd+left=goto_split:left
+keybind = cmd+right=goto_split:right
+keybind = cmd+up=goto_split:top
+keybind = cmd+down=goto_split:bottom
+keybind = cmd+shift+left_bracket=previous_tab
+keybind = cmd+shift+right_bracket=next_tab
+keybind = cmd+1=goto_tab:1
+keybind = cmd+2=goto_tab:2
+keybind = cmd+3=goto_tab:3
+keybind = cmd+4=goto_tab:4
+keybind = cmd+5=goto_tab:5
+keybind = cmd+6=goto_tab:6
+keybind = cmd+7=goto_tab:7
+keybind = cmd+8=goto_tab:8
+keybind = cmd+9=goto_tab:9
+
+# ============================================================================
+# Text Rendering
+# ============================================================================
+adjust-cell-width = 0
+adjust-cell-height = 0
+adjust-underline-position = 0
+adjust-underline-thickness = 0
