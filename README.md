@@ -31,14 +31,13 @@ zsh -c "$(curl -fsSL https://raw.githubusercontent.com/mehuaniket/dotfiles/main/
 Install specific configurations:
 
 ```bash
-# Install Ghostty terminal with oh-my-posh
+# Install Ghostty terminal
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/mehuaniket/dotfiles/main/scripts/setup.sh)" -- --ghostty
 
 # Or manually after cloning
 cd ~/.dotfiles
 stow ghostty      # Ghostty terminal config
-stow oh-my-posh   # oh-my-posh prompt theme
-stow zsh          # Zsh configuration
+stow zsh          # Zsh configuration (includes Powerlevel10k)
 stow tmux         # Tmux configuration
 stow nvim         # Neovim configuration
 stow fzf          # FZF configuration
@@ -48,20 +47,19 @@ stow fzf          # FZF configuration
 
 | Config | Description | Terminal |
 |--------|-------------|----------|
-| `zsh` | Shell config with P10k/oh-my-posh | iTerm2, Ghostty |
+| `zsh` | Shell config with Powerlevel10k | iTerm2, Ghostty |
 | `tmux` | Terminal multiplexer | All |
 | `nvim` | Neovim IDE setup | All |
 | `fzf` | Fuzzy finder | All |
 | `ghostty` | Ghostty terminal (Catppuccin Mocha) | Ghostty |
-| `oh-my-posh` | Prompt theme (P10k lean style) | Ghostty |
 | `git` | Git configuration | All |
 | `k9s` | Kubernetes TUI | All |
 
 ## Features
 
 - **Dual Terminal Support**: 
-  - iTerm2 → Powerlevel10k prompt
-  - Ghostty → oh-my-posh prompt (auto-detects)
+  - iTerm2 & Ghostty → Powerlevel10k prompt
+  - Consistent theme and experience across terminals
 - **Theme**: Catppuccin Mocha everywhere
 - **Font**: JetBrains Mono Nerd Font
 - **Shell**: zsh with Oh My Zsh
@@ -90,7 +88,7 @@ brew bundle --file=homebrew/Brewfile && brew cleanup
 ### Ghostty Setup (Optional)
 - Launch Ghostty: `open -a Ghostty`
 - Config auto-linked via stow to `~/.config/ghostty/config`
-- Prompt switches automatically to oh-my-posh
+- Uses Powerlevel10k prompt (same as iTerm2)
 
 ### Post-Install
 - Restart Terminal/Ghostty
@@ -104,12 +102,10 @@ brew bundle --file=homebrew/Brewfile && brew cleanup
 ├── zsh/                  # → ~/.zshrc, ~/.p10k.zsh
 ├── tmux/                 # → ~/.config/tmux/
 ├── nvim/                 # → ~/.config/nvim/
-├── ghostty/              # → ~/.config/ghostty/
-└── oh-my-posh/           # → ~/.config/oh-my-posh/
+└── ghostty/              # → ~/.config/ghostty/
 
 ~/.config/                # Symlinked configs (auto-managed)
 ├── ghostty/config        # Ghostty terminal
-├── oh-my-posh/*.json     # Prompt themes
 ├── tmux/tmux.conf        # Tmux config
 └── nvim/                 # Neovim config
 ```
@@ -126,7 +122,7 @@ cd zsh && git pull && cd .. && stow -R zsh
 brew bundle dump --file=homebrew/Brewfile --force
 
 # Update all configs
-git pull && stow -R zsh tmux nvim fzf ghostty oh-my-posh
+git pull && stow -R zsh tmux nvim fzf ghostty
 ```
 
 ## Tips
@@ -147,11 +143,11 @@ stow -D <package>
 stow <package>
 ```
 
-### Ghostty Not Detecting
-Check if oh-my-posh is in PATH:
+### Ghostty Prompt Issues
+Check if Powerlevel10k is loaded:
 ```bash
-which oh-my-posh
-# Should show: /opt/homebrew/bin/oh-my-posh
+echo $ZSH_THEME
+# Should show: powerlevel10k/powerlevel10k
 ```
 
 ### Font Issues

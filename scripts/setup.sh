@@ -149,20 +149,9 @@ fi
 
 cd ~/.dotfiles
 
-# Function to setup Ghostty and oh-my-posh
+# Function to setup Ghostty
 setup_ghostty() {
-  log "Setting up Ghostty terminal with oh-my-posh..."
-  
-  # Ensure oh-my-posh is installed
-  if ! command -v oh-my-posh >/dev/null 2>&1; then
-    if [ "$brew_install" = true ]; then
-      log "Installing oh-my-posh..."
-      install_brew_package oh-my-posh
-    else
-      warn "oh-my-posh not found. Install with: brew install oh-my-posh"
-      return 1
-    fi
-  fi
+  log "Setting up Ghostty terminal..."
   
   # Ensure Ghostty is installed
   if [ "$brew_install" = true ]; then
@@ -172,13 +161,10 @@ setup_ghostty() {
     warn "Ghostty not found. Install with: brew install --cask ghostty"
   fi
   
-  # Stow Ghostty and oh-my-posh configurations
+  # Stow Ghostty configuration
   if command -v stow >/dev/null 2>&1; then
     log "Stowing Ghostty config..."
     [ -d "ghostty" ] && stow ghostty || warn "ghostty directory not found"
-    
-    log "Stowing oh-my-posh config..."
-    [ -d "oh-my-posh" ] && stow oh-my-posh || warn "oh-my-posh directory not found"
     
     log "✓ Ghostty setup complete!"
     log "  Launch with: open -a Ghostty"
@@ -221,12 +207,12 @@ log "============================================"
 log "Setup complete! Please restart your terminal."
 log ""
 if [ "$install_ghostty" = true ]; then
-  log "Ghostty installed with oh-my-posh prompt."
+  log "Ghostty installed with Powerlevel10k prompt."
   log "  • Launch: open -a Ghostty"
   log "  • Config: ~/.config/ghostty/config"
-  log "  • Theme: ~/.config/oh-my-posh/p10k-lean.omp.json"
+  log "  • Prompt: Powerlevel10k (~/.p10k.zsh)"
   log ""
 fi
-log "Available configs: zsh, tmux, fzf, nvim, ghostty, oh-my-posh"
+log "Available configs: zsh, tmux, fzf, nvim, ghostty"
 log "Install specific configs: cd ~/.dotfiles && stow <name>"
 log "============================================"
