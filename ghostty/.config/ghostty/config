@@ -31,8 +31,9 @@ cursor-opacity = 1.0
 # ============================================================================
 # Window Configuration
 # ============================================================================
-window-width = 120
-window-height = 30
+# Large window size (almost full screen, not maximized)
+window-width = 280
+window-height = 70
 window-padding-x = 4
 window-padding-y = 4
 window-padding-balance = true
@@ -40,6 +41,10 @@ window-decoration = true
 window-theme = dark
 window-save-state = always
 window-step-resize = true
+
+# Start with large window (not fullscreen/maximized)
+window-inherit-working-directory = true
+window-inherit-font-size = true
 
 # ============================================================================
 # Terminal Behavior

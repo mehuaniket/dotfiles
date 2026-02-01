@@ -7,7 +7,7 @@ hs.hotkey.bind(hyper, "C", function()
 end)
 
 hs.hotkey.bind(hyper, "T", function()
-	hs.application.launchOrFocus("iTerm")
+	hs.application.launchOrFocus("Ghostty")
 end)
 
 hs.hotkey.bind(hyper, "0", function()
@@ -15,7 +15,7 @@ hs.hotkey.bind(hyper, "0", function()
 end)
 
 hs.hotkey.bind(hyper, "9", function()
-	hs.application.launchOrFocus("iTerm")
+	hs.application.launchOrFocus("Ghostty")
 end)
 
 hs.hotkey.bind(hyper, "8", function()
