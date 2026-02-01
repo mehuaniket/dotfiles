@@ -51,8 +51,8 @@ term = xterm-256color
 shell-integration = detect
 shell-integration-features = cursor,sudo,title
 
-# Auto-launch tmux (matching iTerm2 behavior)
-# command = /bin/zsh -c "tmux ls && read tmux_session && tmux attach -t ${tmux_session:-default} || tmux new -s ${tmux_session:-default}"
+# Auto-launch tmux with default session (no prompt)
+command = /bin/zsh -c "tmux attach -t default || tmux new -s default"
 
 # ============================================================================
 # Scrollback & Performance
