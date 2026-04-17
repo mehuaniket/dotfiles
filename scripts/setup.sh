@@ -29,14 +29,16 @@ install_brew_cask() {
 
 # Parse command-line arguments
 brew_install=false
+install_ghostty=false
 stow_targets=("zsh" "tmux" "fzf" "nvim")
 
 while [[ "$#" -gt 0 ]]; do
   case $1 in
     --brew) brew_install=true; shift ;;
+    --ghostty) install_ghostty=true; shift ;;
+    --all) brew_install=true; install_ghostty=true; shift ;;
     *) echo "Unknown parameter passed: $1"; exit 1 ;;
   esac
-  shift
 done
 
 # Install Homebrew packages if --brew true is passed
@@ -147,6 +149,31 @@ fi
 
 cd ~/.dotfiles
 
+# Function to setup Ghostty
+setup_ghostty() {
+  log "Setting up Ghostty terminal..."
+  
+  # Ensure Ghostty is installed
+  if [ "$brew_install" = true ]; then
+    log "Installing Ghostty..."
+    install_brew_cask ghostty
+  elif ! command -v ghostty >/dev/null 2>&1 && [ ! -d "/Applications/Ghostty.app" ]; then
+    warn "Ghostty not found. Install with: brew install --cask ghostty"
+  fi
+  
+  # Stow Ghostty configuration
+  if command -v stow >/dev/null 2>&1; then
+    log "Stowing Ghostty config..."
+    [ -d "ghostty" ] && stow ghostty || warn "ghostty directory not found"
+    
+    log "✓ Ghostty setup complete!"
+    log "  Launch with: open -a Ghostty"
+  else
+    warn "stow not installed; cannot link configs"
+    return 1
+  fi
+}
+
 if command -v stow >/dev/null 2>&1; then
   log "Stowing dotfiles..."
   for target in "${stow_targets[@]}"; do
@@ -154,6 +181,11 @@ if command -v stow >/dev/null 2>&1; then
       stow "$target" || warn "stow failed for $target"
     fi
   done
+  
+  # Setup Ghostty if requested
+  if [ "$install_ghostty" = true ]; then
+    setup_ghostty
+  fi
 else
   warn "stow is not installed; skip stowing. Re-run with --brew to install dependencies."
 fi
@@ -171,4 +203,16 @@ if command -v tmux >/dev/null 2>&1; then
   "$HOME/.config/tmux/plugins/tpm/bin/install_plugins" || true
 fi
 
-echo "Setup complete! Please restart your terminal."
+log "============================================"
+log "Setup complete! Please restart your terminal."
+log ""
+if [ "$install_ghostty" = true ]; then
+  log "Ghostty installed with Powerlevel10k prompt."
+  log "  • Launch: open -a Ghostty"
+  log "  • Config: ~/.config/ghostty/config"
+  log "  • Prompt: Powerlevel10k (~/.p10k.zsh)"
+  log ""
+fi
+log "Available configs: zsh, tmux, fzf, nvim, ghostty"
+log "Install specific configs: cd ~/.dotfiles && stow <name>"
+log "============================================"

@@ -1,3 +1,7 @@
+# ============================================================================
+# Prompt Configuration (Powerlevel10k)
+# ============================================================================
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -8,6 +12,9 @@ fi
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 export PATH=/usr/local/opt/python/libexec/bin:$PATH
+
+#go
+export PATH="$PATH:$(go env GOPATH)/bin"
 # LLVM
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
@@ -17,6 +24,8 @@ export PATH="/usr/local/opt/openjdk@17/bin:$PATH"
 export CPPFLAGS="-I/usr/local/opt/openjdk@17/include $CPPFLAGS"
 # Dart/Flutter
 export PATH="$PATH":"$HOME/.pub-cache/bin"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -24,6 +33,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+
+# Use Powerlevel10k for all terminals
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # brew shell init 
@@ -339,3 +350,7 @@ fvi() { nvim "$(fd --exclude .git | fzf --no-color --ansi)" }
 # Ruby
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
