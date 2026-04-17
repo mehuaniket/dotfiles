@@ -56,8 +56,8 @@ term = xterm-256color
 shell-integration = detect
 shell-integration-features = cursor,sudo,title
 
-# Auto-launch tmux - session named after current folder
-command = /bin/zsh -c "tmux attach -t $(basename $PWD) || tmux new -s $(basename $PWD)"
+# Auto-launch tmux - attach to any existing session or create new one named after folder
+command = /bin/zsh -c "tmux attach || tmux new -s $(basename $PWD)"
 
 # ============================================================================
 # Scrollback & Performance
