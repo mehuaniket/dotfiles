@@ -56,8 +56,8 @@ term = xterm-256color
 shell-integration = detect
 shell-integration-features = cursor,sudo,title
 
-# Auto-launch tmux with default session (no prompt)
-command = /bin/zsh -c "tmux attach -t default || tmux new -s default"
+# Auto-launch tmux - session named after current folder
+command = /bin/zsh -c "tmux attach -t $(basename $PWD) || tmux new -s $(basename $PWD)"
 
 # ============================================================================
 # Scrollback & Performance
